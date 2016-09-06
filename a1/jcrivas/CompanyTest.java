@@ -14,9 +14,9 @@ public class CompanyTest {
 		assertEquals("Apple", c2.getName());
 	}
 
+	@Test
 	public void testCompanyGetAvailableWorkers() {
 		Company c1 = new Company("Google");
-
 		assertEquals("Google", c1.getName());
 	}
 }

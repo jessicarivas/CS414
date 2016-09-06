@@ -5,8 +5,8 @@ import java.util.Set;
 public class Company
 {
 	private String _companyName;
-	private Set<String> _availableWorkers;
-	private Set<String> _unassignedWorkers;
+	private Set<Worker> _availableWorkers;
+	private Set<Worker> _unassignedWorkers;
 	
 	public Company(String name)
 	{
@@ -18,12 +18,12 @@ public class Company
 		return _companyName;
 	}
 	
-	public Set<String> getAvailableWorkers()
+	public Set<Worker> getAvailableWorkers()
 	{
 		return _availableWorkers;
 	}
 	
-	public Set<String> getUnassignedWorkers()
+	public Set<Worker> getUnassignedWorkers()
 	{
 		return _unassignedWorkers;
 	}
@@ -51,5 +51,14 @@ public class Company
 		String companyString = _companyName + ":" + _availableWorkers + ":" + "2";
 		return companyString;
 	}
+	
+	public void addToAvailableWorkerPool(Worker worker) 
+	{
+		if (!_availableWorkers.contains(worker)) {
+			_availableWorkers.add(worker);
+		}	
+	}
+	
+	
 	
 }
