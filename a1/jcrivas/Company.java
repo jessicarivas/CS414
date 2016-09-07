@@ -95,17 +95,13 @@ public class Company
 	public void assign(Worker worker, Project project)
 	{
 		if (containsWorker(_availableWorkers, worker)) {
-			System.out.println("level 1");
 			if (!(containsProject(worker.getProjects(), project)) && !worker.willOverload(project) && project.isHelpful(worker)) {
-				System.out.println("level 2");
 				if ((project.getStatus() != ProjectStatus.ACTIVE) && (project.getStatus() != ProjectStatus.FINISHED)) {
 					System.out.println("made it!");
 					worker.assignTo(project);
 					project.addWorker(worker);
-					System.out.println(!containsWorker(_assignedWorkers, worker));
 					if (!containsWorker(_assignedWorkers, worker)) {
 						_assignedWorkers.add(worker);
-						System.out.println(_assignedWorkers);
 						_unassignedWorkers.remove(worker);
 					} 
 				}

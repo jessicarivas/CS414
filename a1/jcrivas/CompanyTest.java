@@ -88,17 +88,84 @@ public class CompanyTest {
 		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
 		c1.assign(w1, project);
 		
-		System.out.println(exampleWorkerSet);
-
-		System.out.println("hi");
-		System.out.println(c1.getAvailableWorkers());
-
-		System.out.println(c1.getAssignedWorkers());
-		
 		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
 		assertEquals(true, exampleWorkerSet.equals(c1.getAssignedWorkers()));
 
 	}
 	
+	@Test
+	public void testCompanyAssignUnqualifiedWorker() {
+		Company c1 = new Company("Google");
+		Set<Qualification> qualifications3 = new HashSet<Qualification>();
+		qualifications3.add(q1);
+		Worker w2 = new Worker("Unqualified", qualifications3);
+		
+		c1.addToAvailableWorkerPool(w2);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w2);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		c1.assign(w2, project);
+		
+		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+	}
 	
+	@Test
+	public void testCompanyAssignNotAvailableWorker() {
+		Company c1 = new Company("Google");
+		
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		c1.assign(w1, project);
+		
+		assertEquals(false, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+
+	}
+	
+	@Test
+	public void testCompanyAssignActiveProject() {
+		Company c1 = new Company("Google");
+		
+		c1.addToAvailableWorkerPool(w1);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.ACTIVE);
+		c1.assign(w1, project);
+		
+		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+	}
+	
+	@Test
+	public void testCompanyAssignFinishedProject() {
+		Company c1 = new Company("Google");
+		
+		c1.addToAvailableWorkerPool(w1);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.FINISHED);
+		c1.assign(w1, project);
+		
+		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+	}
+	
+	@Test
+	public void testCompanyAssignTwoProjects() {
+		Company c1 = new Company("Google");
+		
+		c1.addToAvailableWorkerPool(w1);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.FINISHED);
+		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.MEDIUM, ProjectStatus.FINISHED);
+		c1.assign(w1, project);
+		c1.assign(w1, project2);
+		
+		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		System.out.println(c1.getAssignedWorkers());
+		assertEquals(true, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+	}
 }
