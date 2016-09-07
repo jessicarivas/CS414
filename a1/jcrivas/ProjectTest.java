@@ -7,8 +7,9 @@ import org.junit.Test;
 public class ProjectTest {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testGetName() {		
+		Project p1 = new Project("Oklahoma", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		assertEquals("Oklahoma", p1.getName());
 	}
 
 }

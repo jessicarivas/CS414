@@ -42,12 +42,13 @@ public class WorkerTest {
 		assertEquals(1000000, w1.getSalary(), 0.001);
 	}
 
-//	@Test(expected=WorkerException.class)
-//	public void testSetSalaryNegative() {
-//		Worker w1 = new Worker("Jessica", qualifications);
-//		w1.setSalary(-1000);
-//	}
-//	
+	@Test
+	public void testSetSalaryNegative() {
+		Worker w1 = new Worker("Jessica", qualifications);
+		w1.setSalary(-1000);
+		assertEquals(0, w1.getSalary(), 0.001);
+
+	}
 	
 	@Test
 	public void testSetQualifications() {
@@ -65,6 +66,21 @@ public class WorkerTest {
 		assertEquals(true, w1.equals(w2));
 	}
 
+	@Test
+	public void testToStringDefaults() {
+		Worker w1 = new Worker("Jessica", qualifications);
+		assertEquals("Jessica:0:2:0.0", w1.toString());
+	}
+	
+	@Test
+	public void testToString() {
+		Qualification q3 = new Qualification("Angry");
+		qualifications.add(q3);
+		Worker w1 = new Worker("Dopey", qualifications);
+		w1.setSalary(1000);
+		assertEquals("Dopey:0:3:1000.0", w1.toString());
+	}
+	
 	@After
 	public void after() {
 		qualifications = null;

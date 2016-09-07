@@ -18,7 +18,6 @@ public class CompanyTest {
 	private Set<Qualification> qualifications2;
 	private Worker w1;
 	private Worker w2;
-	private Project p1;
 	private Set<Worker> exampleWorkerSet;
 	
 	@Before
@@ -38,9 +37,6 @@ public class CompanyTest {
 		w1 = new Worker("Person", qualifications);
 		w2 = new Worker("Person", qualifications);
 		exampleWorkerSet = new HashSet<Worker>();
-
-		p1 = new Project("Painting", ProjectSize.MEDIUM, ProjectStatus.PLANNED);
-
 	}
 	
 	@Test
@@ -159,13 +155,34 @@ public class CompanyTest {
 		c1.addToAvailableWorkerPool(w1);
 		exampleWorkerSet = new HashSet<Worker>();
 		exampleWorkerSet.add(w1);
-		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.FINISHED);
-		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.MEDIUM, ProjectStatus.FINISHED);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
 		c1.assign(w1, project);
 		c1.assign(w1, project2);
 		
 		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
-		System.out.println(c1.getAssignedWorkers());
 		assertEquals(true, exampleWorkerSet.equals(c1.getAssignedWorkers()));
 	}
+	
+	@Test
+	public void testCompanyAssignTwoWorkers() {
+		Company c1 = new Company("Google");
+		Set<Qualification> qualifications3 = new HashSet<Qualification>();
+		qualifications3.add(q1);
+		qualifications3.add(q3);
+		Worker w2 = new Worker("Second", qualifications3);
+		
+		c1.addToAvailableWorkerPool(w1);
+		c1.addToAvailableWorkerPool(w2);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w2);
+		exampleWorkerSet.add(w1);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		c1.assign(w1, project);
+		c1.assign(w2, project);
+		
+		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		assertEquals(true, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+	}
+	
 }

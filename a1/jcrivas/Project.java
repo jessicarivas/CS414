@@ -67,7 +67,8 @@ public class Project
 	//TODO
 	public Set<Qualification> missingQualifications() 
 	{
-		for (Qualification temp: _missingQualifications) {
+		Set<Qualification> tempMissingQualifications = _missingQualifications;
+		for (Qualification temp: tempMissingQualifications) {
 			for (Worker worker: _assignedWorkers) {
 				for (Qualification temp2: worker.getQualifications()) {
 					if (temp.equals(temp2)) {
