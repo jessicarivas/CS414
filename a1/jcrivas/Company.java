@@ -95,7 +95,9 @@ public class Company
 	public void assign(Worker worker, Project project)
 	{
 		if (containsWorker(_availableWorkers, worker)) {
+			System.out.println("level 1!");
 			if (!(containsProject(worker.getProjects(), project)) && !worker.willOverload(project) && project.isHelpful(worker)) {
+				System.out.println("level 2!");
 				if ((project.getStatus() != ProjectStatus.ACTIVE) && (project.getStatus() != ProjectStatus.FINISHED)) {
 					System.out.println("made it!");
 					worker.assignTo(project);
@@ -103,10 +105,44 @@ public class Company
 					if (!containsWorker(_assignedWorkers, worker)) {
 						_assignedWorkers.add(worker);
 						_unassignedWorkers.remove(worker);
-					} 
+					}
+					if (project.missingQualifications().size() > 0 || project.getStatus() == ProjectStatus.ACTIVE) {
+						project.setStatus(ProjectStatus.SUSPENDED);
+					}
 				}
 			}
 		}
+	}
+	
+	private void editProjectStatus(Project project)
+	{
+		if (project.missingQualifications().size() > 0 && project.getStatus() == ProjectStatus.ACTIVE) {
+			project.setStatus(ProjectStatus.SUSPENDED);
+		}
+	}
+	
+	public void unassign(Worker worker, Project project)
+	{
+		if (containsProject(worker.getProjects(), project)) {
+			worker.unassignFrom(project);
+			project.removeWorker(worker);
+			if (worker.getProjects().size() == 0) {
+				_unassignedWorkers.add(worker);
+				_assignedWorkers.remove(worker);
+			} 
+			editProjectStatus(project);
+		}
+	}
+	
+	public void unassignAll(Worker worker)
+	{
+		for (Project temp: worker.getProjects()) {
+			temp.removeWorker(worker);
+			editProjectStatus(temp);
+		}
+		worker.unassignAll();
+		_unassignedWorkers.add(worker);
+		_assignedWorkers.remove(worker);
 	}
 	
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size, ProjectStatus status)

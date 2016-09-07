@@ -41,15 +41,15 @@ public class Worker
 		return _qualifications;
 	}
 	
-	public void addQualification(Qualification q)
+	public void addQualification(Qualification qualification)
 	{
-		_qualifications.add(q);
+		_qualifications.add(qualification);
 	}
 	
 	//TODO
-	public boolean equals(Object o)
+	public boolean equals(Object object)
 	{
-		if (o instanceof Worker && ((Worker) o).getName() == _workerName)
+		if (object instanceof Worker && ((Worker) object).getName() == _workerName)
 		{
 			return true;
 		} 
@@ -103,6 +103,18 @@ public class Worker
 
 	public void assignTo(Project project) {
 		_projects.add(project);
+	}
+
+	public void unassignFrom(Project project) {
+		for (Project temp: _projects) {
+			if (temp.getName().equals(project)) {
+				_projects.remove(temp);
+			}
+		}
+	}
+
+	public void unassignAll() {
+		_projects.clear();
 	}
 	
 }

@@ -67,6 +67,15 @@ public class Project
 	//TODO
 	public Set<Qualification> missingQualifications() 
 	{
+		for (Qualification temp: _missingQualifications) {
+			for (Worker worker: _assignedWorkers) {
+				for (Qualification temp2: worker.getQualifications()) {
+					if (temp.equals(temp2)) {
+						_missingQualifications.remove(temp);
+					}
+				}
+			}
+		}
 		return _missingQualifications;
 	}
 
@@ -92,5 +101,13 @@ public class Project
 
 	public void addRequiredQualifications(Set<Qualification> qualifications) {
 		_missingQualifications = qualifications;		
+	}
+
+	public void removeWorker(Worker worker) {
+		for (Worker temp: _assignedWorkers) {
+			if (temp.getName().equals(worker)) {
+				_assignedWorkers.remove(temp);
+			}
+		}		
 	}
 }
