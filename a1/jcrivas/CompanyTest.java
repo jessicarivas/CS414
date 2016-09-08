@@ -185,4 +185,24 @@ public class CompanyTest {
 		assertEquals(true, exampleWorkerSet.equals(c1.getAssignedWorkers()));
 	}
 	
+	@Test
+	public void testCompanyAssignTwoWorkersQualificationOverlap() {
+		Company c1 = new Company("Google");
+		Set<Qualification> qualifications3 = new HashSet<Qualification>();
+		qualifications3.add(q2);
+		Worker w2 = new Worker("Second", qualifications3);
+		
+		c1.addToAvailableWorkerPool(w1);
+		c1.addToAvailableWorkerPool(w2);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w2);
+		exampleWorkerSet.add(w1);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		c1.assign(w1, project);
+		c1.assign(w2, project);
+		
+		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
+		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
+	}
+	
 }

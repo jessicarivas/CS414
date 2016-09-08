@@ -9,7 +9,6 @@ public class Worker
 	private double _salary;
 	private Set<Qualification> _qualifications;
 	private Set<Project> _projects;
-	private String _companyName;
 	
 	public Worker(String name, Set<Qualification> qualifications)
 	{

@@ -1,6 +1,7 @@
 package cs414.a1.jcrivas;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Project
@@ -67,15 +68,17 @@ public class Project
 	//TODO
 	public Set<Qualification> missingQualifications() 
 	{
-		Set<Qualification> tempMissingQualifications = _missingQualifications;
-		for (Qualification temp: tempMissingQualifications) {
-			for (Worker worker: _assignedWorkers) {
-				for (Qualification temp2: worker.getQualifications()) {
-					if (temp.equals(temp2)) {
-						_missingQualifications.remove(temp);
+		for (Iterator<Qualification> i = _missingQualifications.iterator(); i.hasNext();) {
+		    Qualification missingQualification = i.next();
+			for (Iterator<Worker> j = _assignedWorkers.iterator(); j.hasNext();) {
+				Worker worker = j.next();
+				for (Iterator<Qualification> k = worker.getQualifications().iterator(); k.hasNext();) {
+					Qualification workerQualification = k.next();
+					if (missingQualification.equals(workerQualification)) {
+						i.remove();
 					}
 				}
-			}
+		    }
 		}
 		return _missingQualifications;
 	}
@@ -93,11 +96,16 @@ public class Project
 
 	public void addWorker(Worker worker) {
 		_assignedWorkers.add(worker);
-		for (Qualification temp: _missingQualifications) {
-			if (worker.getQualifications().contains(temp)) {
-				_missingQualifications.remove(temp);
+		Set<Qualification> qualificationsFiltered = _missingQualifications;
+		for (Qualification temp: qualificationsFiltered) {
+			for (Qualification temp2: worker.getQualifications()) {
+				if (temp.equals(temp2)) {
+					_missingQualifications.remove(temp2);
+				}
 			}
 		}
+		_missingQualifications = qualificationsFiltered;
+		System.out.println(_missingQualifications);
 	}
 
 	public void addRequiredQualifications(Set<Qualification> qualifications) {
