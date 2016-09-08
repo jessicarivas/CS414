@@ -60,7 +60,7 @@ public class ProjectTest {
 		Project p1 = c1.createProject("Ohio", qualifications, ProjectSize.BIG, ProjectStatus.ACTIVE);
 		
 		assertEquals(true, p1.getSize().equals(ProjectSize.BIG));
-		assertEquals(true, p1.getStatus().equals(ProjectStatus.ACTIVE));
+		assertEquals(true, p1.getStatus().equals(ProjectStatus.PLANNED));
 		assertEquals(true, p1.getName().equals("Ohio"));
 		assertEquals(true, p1.missingQualifications().equals(qualifications));
 	}
@@ -77,7 +77,7 @@ public class ProjectTest {
 	@Test
 	public void testWorkerIsHelpful() {
 		Company c1 = new Company("Google");
-		Project p1 = c1.createProject("Ohio", qualifications, ProjectSize.BIG, ProjectStatus.ACTIVE);
+		Project p1 = c1.createProject("Ohio", qualifications, ProjectSize.BIG, ProjectStatus.PLANNED);
 		
 		assertEquals(true, p1.isHelpful(w1));		
 	}
@@ -85,7 +85,7 @@ public class ProjectTest {
 	@Test
 	public void testWorkerIsHelpfulFalse() {
 		Company c1 = new Company("Google");
-		Project p1 = c1.createProject("Ohio", qualifications, ProjectSize.BIG, ProjectStatus.ACTIVE);
+		Project p1 = c1.createProject("Ohio", qualifications, ProjectSize.BIG, ProjectStatus.PLANNED);
 		
 		assertEquals(false, p1.isHelpful(w2));		
 	}

@@ -87,14 +87,15 @@ public class Company
 	
 	public void addToAvailableWorkerPool(Worker worker) 
 	{
-		if (!containsWorker(_availableWorkers, worker)) {
+		if (!containsWorker(_availableWorkers, worker) && worker.canBeAssignedToCompany()) {
 			_availableWorkers.add(worker);
+			_unassignedWorkers.add(worker);
 		}
 	}
 	
 	public void assign(Worker worker, Project project)
 	{
-		if (containsWorker(_availableWorkers, worker)) {
+		if (containsWorker(_availableWorkers, worker) && project.getCompany() == _companyName) {
 			if (!(containsProject(worker.getProjects(), project)) && !worker.willOverload(project) && project.isHelpful(worker)) {
 				if ((project.getStatus() != ProjectStatus.ACTIVE) && (project.getStatus() != ProjectStatus.FINISHED)) {
 					worker.assignTo(project);
@@ -102,9 +103,6 @@ public class Company
 					if (!containsWorker(_assignedWorkers, worker)) {
 						_assignedWorkers.add(worker);
 						_unassignedWorkers.remove(worker);
-					}
-					if (project.missingQualifications().size() > 0 || project.getStatus() == ProjectStatus.ACTIVE) {
-						project.setStatus(ProjectStatus.SUSPENDED);
 					}
 				}
 			}
@@ -142,11 +140,33 @@ public class Company
 		_assignedWorkers.remove(worker);
 	}
 	
+	public void start(Project project) {
+		if (project.getCompany() == _companyName) {
+			if (project.getStatus() == ProjectStatus.PLANNED || project.getStatus() == ProjectStatus.SUSPENDED) {
+				if (project.missingQualifications().size() == 0) {
+					project.setStatus(ProjectStatus.ACTIVE);
+				}
+			}
+		}
+	}
+	
+	//TODO
+	public void finish(Project project) {
+		if (project.getCompany() == _companyName) {
+			if (project.getStatus() == ProjectStatus.ACTIVE) {
+				project.setStatus(ProjectStatus.FINISHED);
+				if (project.missingQualifications().size() == 0) {
+				}
+			}
+		}
+	}
+	
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size, ProjectStatus status)
 	{
 		if (qualifications.size() > 0) {
-			Project project = new Project(name, size, status);
+			Project project = new Project(name, size, ProjectStatus.PLANNED);
 			project.addRequiredQualifications(qualifications);
+			project.setCompany(_companyName);
 			_projects.add(project);
 			return project;
 		}

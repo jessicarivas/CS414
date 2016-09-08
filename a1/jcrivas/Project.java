@@ -7,6 +7,7 @@ import java.util.Set;
 public class Project
 {
 	private String _projectName;
+	private String _assignedToCompany;
 	private ProjectSize _projectSize;
 	private ProjectStatus _projectStatus;
 	private Set<Worker> _assignedWorkers;
@@ -19,6 +20,7 @@ public class Project
 		_projectStatus = status;
 		_missingQualifications = new HashSet<Qualification>();
 		_assignedWorkers = new HashSet<Worker>();
+		_assignedToCompany = "";
 	}
 	
 	public String getName()
@@ -34,6 +36,14 @@ public class Project
 	public ProjectStatus getStatus()
 	{
 		return _projectStatus;
+	}
+	
+	public void setCompany(String companyName) {
+		_assignedToCompany = companyName;
+	}
+	
+	public String getCompany() {
+		return _assignedToCompany;
 	}
 
 	public void setStatus(ProjectStatus status)
@@ -96,16 +106,15 @@ public class Project
 
 	public void addWorker(Worker worker) {
 		_assignedWorkers.add(worker);
-		Set<Qualification> qualificationsFiltered = _missingQualifications;
-		for (Qualification temp: qualificationsFiltered) {
-			for (Qualification temp2: worker.getQualifications()) {
-				if (temp.equals(temp2)) {
-					_missingQualifications.remove(temp2);
+		for (Iterator<Qualification> i = _missingQualifications.iterator(); i.hasNext();) {
+			Qualification missingQualification = i.next();
+			for (Iterator<Qualification> j = worker.getQualifications().iterator(); j.hasNext();) {
+				Qualification workerQualification = j.next();
+				if (missingQualification.equals(workerQualification)) {
+					i.remove();
 				}
 			}
 		}
-		_missingQualifications = qualificationsFiltered;
-		System.out.println(_missingQualifications);
 	}
 
 	public void addRequiredQualifications(Set<Qualification> qualifications) {

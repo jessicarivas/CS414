@@ -7,6 +7,7 @@ public class Worker
 {
 	private String _workerName;
 	private double _salary;
+	private boolean _assignedToCompany;
 	private Set<Qualification> _qualifications;
 	private Set<Project> _projects;
 	
@@ -16,7 +17,8 @@ public class Worker
 			_workerName = name;
 			_qualifications = qualifications;
 			_salary = 0;
-			_projects = new HashSet<Project>();			
+			_projects = new HashSet<Project>();	
+			_assignedToCompany = false;
 		}
 	}
 	
@@ -34,6 +36,15 @@ public class Worker
 	{
 		if (salary > 0) {
 			_salary = salary;
+		}
+	}
+	
+	public boolean canBeAssignedToCompany() {
+		if (_assignedToCompany == false) {
+			_assignedToCompany = true;
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -91,6 +102,7 @@ public class Worker
 				}
 			}
 		}
+		allProjects.remove(project);
 		if (projectLoad > 12) {
 			return true;
 		}
