@@ -64,11 +64,6 @@ public class Worker
 //		result = (int) (value / 11);
 //		return result;
 //	}
-
-	public void addToCompany(String company)
-	{
-		_companyName = company;
-	}
 	
 	//TODO
 	public String toString()
