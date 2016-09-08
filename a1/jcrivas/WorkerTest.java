@@ -21,11 +21,18 @@ public class WorkerTest {
 		qualifications.add(q1);
 		qualifications.add(q2);	
 	}
-	
+
 	@Test
 	public void testGetName() {		
 		Worker w1 = new Worker("Jessica", qualifications);
 		assertEquals("Jessica", w1.getName());
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNoQualifications() {	
+		qualifications.clear();
+		Worker w1 = new Worker("Jessica", qualifications);
+		fail(w1.toString());
 	}
 	
 	@Test

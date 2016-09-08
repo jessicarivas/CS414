@@ -147,10 +147,13 @@ public class Company
 	
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size, ProjectStatus status)
 	{
-		Project project = new Project(name, size, status);
-		project.addRequiredQualifications(qualifications);
-		_projects.add(project);
-		return project;
+		if (qualifications.size() > 0) {
+			Project project = new Project(name, size, status);
+			project.addRequiredQualifications(qualifications);
+			_projects.add(project);
+			return project;
+		}
+		return null;
 	}
 	
 	

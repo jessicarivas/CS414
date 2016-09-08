@@ -11,12 +11,14 @@ public class Worker
 	private Set<Project> _projects;
 	private String _companyName;
 	
-	public Worker(String name, Set<Qualification> qs)
+	public Worker(String name, Set<Qualification> qualifications)
 	{
-		_workerName = name;
-		_qualifications = qs;
-		_salary = 0;
-		_projects = new HashSet<Project>();
+		if (qualifications.size() > 0) {
+			_workerName = name;
+			_qualifications = qualifications;
+			_salary = 0;
+			_projects = new HashSet<Project>();			
+		}
 	}
 	
 	public String getName()

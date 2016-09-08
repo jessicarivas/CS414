@@ -101,7 +101,7 @@ public class Project
 	}
 
 	public void addRequiredQualifications(Set<Qualification> qualifications) {
-		_missingQualifications = qualifications;		
+		_missingQualifications.addAll(qualifications);		
 	}
 
 	public void removeWorker(Worker worker) {
