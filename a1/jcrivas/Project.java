@@ -13,8 +13,7 @@ public class Project
 	private Set<Worker> _assignedWorkers;
 	private Set<Qualification> _missingQualifications;
 	
-	public Project(String name, ProjectSize size, ProjectStatus status)
-	{
+	public Project(String name, ProjectSize size, ProjectStatus status) {
 		_projectName = name;
 		_projectSize = size;
 		_projectStatus = status;
@@ -23,18 +22,15 @@ public class Project
 		_assignedToCompany = "";
 	}
 	
-	public String getName()
-	{
+	public String getName() {
 		return _projectName;
 	}
 	
-	public ProjectSize getSize()
-	{
+	public ProjectSize getSize() {
 		return _projectSize;
 	}
 	
-	public ProjectStatus getStatus()
-	{
+	public ProjectStatus getStatus() {
 		return _projectStatus;
 	}
 	
@@ -46,14 +42,11 @@ public class Project
 		return _assignedToCompany;
 	}
 
-	public void setStatus(ProjectStatus status)
-	{
+	public void setStatus(ProjectStatus status) {
 		_projectStatus = status;
 	}
 	
-	//TODO
-	public boolean equals(Object project)
-	{
+	public boolean equals(Object project) {
 		if (project instanceof Project && ((Project) project).getName() == _projectName)
 		{
 			return true;
@@ -69,15 +62,13 @@ public class Project
 //		return result;
 //	}
 		
-	public String toString()
-	{
+	public String toString() {
 		String projectString = _projectName + ":" + _assignedWorkers.size() + ":" + _projectStatus.toString();
 		return projectString;
 	}
 	
 	//TODO
-	public Set<Qualification> missingQualifications() 
-	{
+	public Set<Qualification> missingQualifications() {
 		for (Iterator<Qualification> i = _missingQualifications.iterator(); i.hasNext();) {
 		    Qualification missingQualification = i.next();
 			for (Iterator<Worker> j = _assignedWorkers.iterator(); j.hasNext();) {
@@ -119,6 +110,10 @@ public class Project
 
 	public void addRequiredQualifications(Set<Qualification> qualifications) {
 		_missingQualifications.addAll(qualifications);		
+	}
+	
+	public Set<Worker> getAssignedWorkers() {
+		return _assignedWorkers;		
 	}
 
 	public void removeWorker(Worker worker) {

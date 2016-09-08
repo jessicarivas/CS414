@@ -209,6 +209,44 @@ public class CompanyTest {
 	}
 	
 	@Test
+	public void testCompanyAssignOverload() {
+		Company c1 = new Company("Google");
+		
+		c1.addToAvailableWorkerPool(w1);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		System.out.println("testing");
+		qualifications2.remove(q3);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Project project3 = c1.createProject("Sing", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Project project4 = c1.createProject("Draw", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Project project5 = c1.createProject("Write", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Project project6 = c1.createProject("Sketch", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Set<Project> projects = new HashSet<Project>();
+		projects.add(project);
+		projects.add(project2);
+		projects.add(project3);
+		projects.add(project4);
+		projects.add(project5);
+
+		c1.assign(w1, project);
+		c1.start(project);
+		c1.assign(w1, project2);
+		c1.start(project2);
+		c1.assign(w1, project3);
+		c1.start(project3);
+		c1.assign(w1, project4);
+		c1.start(project4);
+		c1.assign(w1, project5);
+		c1.start(project5);
+		c1.assign(w1, project6);
+
+		assertEquals(5, w1.getProjects().size());
+		assertEquals(true, projects.equals(w1.getProjects()));
+	}
+	
+	@Test
 	public void testCompanyAssignTwoWorkers() {
 		Company c1 = new Company("Google");
 		Set<Qualification> qualifications3 = new HashSet<Qualification>();
@@ -248,5 +286,7 @@ public class CompanyTest {
 		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
 		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
 	}
+	
+
 	
 }

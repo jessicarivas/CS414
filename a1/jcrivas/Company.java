@@ -155,7 +155,13 @@ public class Company
 		if (project.getCompany() == _companyName) {
 			if (project.getStatus() == ProjectStatus.ACTIVE) {
 				project.setStatus(ProjectStatus.FINISHED);
-				if (project.missingQualifications().size() == 0) {
+				for (Worker worker: project.getAssignedWorkers()) {
+					worker.unassignFrom(project);
+					project.removeWorker(worker);
+					if (worker.getProjects().size() == 0) {
+						_unassignedWorkers.add(worker);
+						_assignedWorkers.remove(worker);	
+					}
 				}
 			}
 		}
