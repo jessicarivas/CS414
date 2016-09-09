@@ -9,7 +9,6 @@ public class Qualification
 		_description = description;
 	}
 	
-	//TODO
 	public boolean equals(Object o)
 	{
 		if (o instanceof Qualification && ((Qualification) o).toString() == _description)
@@ -21,11 +20,12 @@ public class Qualification
 		}
 	}
 	
-//	public int hashCode() {
-//		int result = 0;
-//		result = (int) (value / 11);
-//		return result;
-//	}
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + _description.hashCode();
+        return result;
+    }
 	
 	public String toString()
 	{

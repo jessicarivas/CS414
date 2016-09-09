@@ -1,6 +1,7 @@
 package cs414.a1.jcrivas;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Company
@@ -51,11 +52,12 @@ public class Company
 		}
 	}
 	
-//	public int hashCode() {
-//		int result = 0;
-//		result = (int) (value / 11);
-//		return result;
-//	}
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + _companyName.hashCode();
+        return result;
+    }
 	
 	public String toString()
 	{
@@ -111,6 +113,7 @@ public class Company
 	
 	private void editProjectStatus(Project project)
 	{
+		System.out.println(project.missingQualifications().size());
 		if (project.missingQualifications().size() > 0 && project.getStatus() == ProjectStatus.ACTIVE) {
 			project.setStatus(ProjectStatus.SUSPENDED);
 		}
@@ -155,14 +158,15 @@ public class Company
 		if (project.getCompany() == _companyName) {
 			if (project.getStatus() == ProjectStatus.ACTIVE) {
 				project.setStatus(ProjectStatus.FINISHED);
-				for (Worker worker: project.getAssignedWorkers()) {
+				for (Iterator<Worker> i = project.getAssignedWorkers().iterator(); i.hasNext();) {
+					Worker worker = i.next();
 					worker.unassignFrom(project);
-					project.removeWorker(worker);
 					if (worker.getProjects().size() == 0) {
 						_unassignedWorkers.add(worker);
 						_assignedWorkers.remove(worker);	
 					}
 				}
+				project.getAssignedWorkers().clear();
 			}
 		}
 	}

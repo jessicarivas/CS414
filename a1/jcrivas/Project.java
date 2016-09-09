@@ -56,11 +56,12 @@ public class Project
 		}
 	}
 	
-//	public int hashCode() {
-//		int result = 0;
-//		result = (int) (value / 11);
-//		return result;
-//	}
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + _projectName.hashCode();
+        return result;
+    }
 		
 	public String toString() {
 		String projectString = _projectName + ":" + _assignedWorkers.size() + ":" + _projectStatus.toString();
@@ -69,7 +70,9 @@ public class Project
 	
 	//TODO
 	public Set<Qualification> missingQualifications() {
-		for (Iterator<Qualification> i = _missingQualifications.iterator(); i.hasNext();) {
+		Set<Qualification> remainingQualifications = new HashSet<Qualification>();
+		remainingQualifications.addAll(_missingQualifications);
+		for (Iterator<Qualification> i = remainingQualifications.iterator(); i.hasNext();) {
 		    Qualification missingQualification = i.next();
 			for (Iterator<Worker> j = _assignedWorkers.iterator(); j.hasNext();) {
 				Worker worker = j.next();
@@ -81,11 +84,11 @@ public class Project
 				}
 		    }
 		}
-		return _missingQualifications;
+		return remainingQualifications;
 	}
 
 	public boolean isHelpful(Worker worker) {
-		for (Qualification temp: _missingQualifications) {
+		for (Qualification temp: missingQualifications()) {
 			for (Qualification temp2: worker.getQualifications()) {
 				if (temp.equals(temp2)) {
 					return true;
@@ -97,7 +100,7 @@ public class Project
 
 	public void addWorker(Worker worker) {
 		_assignedWorkers.add(worker);
-		for (Iterator<Qualification> i = _missingQualifications.iterator(); i.hasNext();) {
+		for (Iterator<Qualification> i = missingQualifications().iterator(); i.hasNext();) {
 			Qualification missingQualification = i.next();
 			for (Iterator<Qualification> j = worker.getQualifications().iterator(); j.hasNext();) {
 				Qualification workerQualification = j.next();
@@ -117,10 +120,6 @@ public class Project
 	}
 
 	public void removeWorker(Worker worker) {
-		for (Worker temp: _assignedWorkers) {
-			if (temp.getName().equals(worker)) {
-				_assignedWorkers.remove(temp);
-			}
-		}		
+		_assignedWorkers.remove(worker);	
 	}
 }

@@ -68,11 +68,9 @@ public class CompanyTest {
 		c1.addToAvailableWorkerPool(w2);
 		exampleWorkerSet = new HashSet<Worker>();
 		exampleWorkerSet.add(w1);
-		exampleWorkerSet.add(w2);
-		assertEquals(false, exampleWorkerSet.equals(c1.getAvailableWorkers()));
-		assertEquals(false, exampleWorkerSet.equals(c1.getUnassignedWorkers()));
-		
-		exampleWorkerSet.remove(w2);
+
+		assertEquals(1, c1.getAvailableWorkers().size());
+		assertEquals(1, c1.getUnassignedWorkers().size());
 		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
 		assertEquals(true, exampleWorkerSet.equals(c1.getUnassignedWorkers()));
 	}
@@ -140,7 +138,6 @@ public class CompanyTest {
 		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
 		
 		c1.assign(w3, project);
-		System.out.println(w3.getProjects().size());
 
 		assertEquals(true, exampleWorkerSet.equals(c1.getAvailableWorkers()));
 		assertEquals(false, exampleWorkerSet.equals(c1.getAssignedWorkers()));
@@ -209,26 +206,60 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testCompanyAssignOverload() {
+	public void testCompanyAssignOverloadBig() {
 		Company c1 = new Company("Google");
 		
 		c1.addToAvailableWorkerPool(w1);
 		exampleWorkerSet = new HashSet<Worker>();
 		exampleWorkerSet.add(w1);
-		System.out.println("testing");
 		qualifications2.remove(q3);
 		Project project = c1.createProject("Paint", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
 		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
 		Project project3 = c1.createProject("Sing", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
 		Project project4 = c1.createProject("Draw", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
 		Project project5 = c1.createProject("Write", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
-		Project project6 = c1.createProject("Sketch", qualifications2, ProjectSize.BIG, ProjectStatus.PLANNED);
+		Set<Project> projects = new HashSet<Project>();
+		projects.add(project);
+		projects.add(project2);
+		projects.add(project3);
+		projects.add(project4);
+
+		c1.assign(w1, project);
+		c1.start(project);
+		c1.assign(w1, project2);
+		c1.start(project2);
+		c1.assign(w1, project3);
+		c1.start(project3);
+		c1.assign(w1, project4);
+		c1.start(project4);
+		c1.assign(w1, project5);
+
+		assertEquals(4, w1.getProjects().size());
+		assertEquals(true, projects.equals(w1.getProjects()));
+	}
+	
+	@Test
+	public void testCompanyAssignOverloadMedium() {
+		Company c1 = new Company("Google");
+		
+		c1.addToAvailableWorkerPool(w1);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		qualifications2.remove(q3);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project3 = c1.createProject("Sing", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project4 = c1.createProject("Draw", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project5 = c1.createProject("Write", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project6 = c1.createProject("Sketch", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
+		Project project7 = c1.createProject("Seven", qualifications2, ProjectSize.MEDIUM, ProjectStatus.PLANNED);
 		Set<Project> projects = new HashSet<Project>();
 		projects.add(project);
 		projects.add(project2);
 		projects.add(project3);
 		projects.add(project4);
 		projects.add(project5);
+		projects.add(project6);
 
 		c1.assign(w1, project);
 		c1.start(project);
@@ -241,8 +272,74 @@ public class CompanyTest {
 		c1.assign(w1, project5);
 		c1.start(project5);
 		c1.assign(w1, project6);
+		c1.start(project6);
+		c1.assign(w1, project7);
+		
+		assertEquals(6, w1.getProjects().size());
+		assertEquals(true, projects.equals(w1.getProjects()));
+	}
+	
+	@Test
+	public void testCompanyAssignOverloadSmall() {
+		Company c1 = new Company("Google");
+		
+		c1.addToAvailableWorkerPool(w1);
+		exampleWorkerSet = new HashSet<Worker>();
+		exampleWorkerSet.add(w1);
+		qualifications2.remove(q3);
+		Project project = c1.createProject("Paint", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project2 = c1.createProject("Fish", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project3 = c1.createProject("Sing", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project4 = c1.createProject("Draw", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project5 = c1.createProject("Write", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project6 = c1.createProject("Sketch", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project7 = c1.createProject("Seven", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project8 = c1.createProject("Eight", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project9 = c1.createProject("Nine", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project10 = c1.createProject("Ten", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project11 = c1.createProject("Eleven", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project12 = c1.createProject("Twelve", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Project project13 = c1.createProject("Thirteen", qualifications2, ProjectSize.SMALL, ProjectStatus.PLANNED);
+		Set<Project> projects = new HashSet<Project>();
+		projects.add(project);
+		projects.add(project2);
+		projects.add(project3);
+		projects.add(project4);
+		projects.add(project5);
+		projects.add(project6);
+		projects.add(project7);
+		projects.add(project8);
+		projects.add(project9);
+		projects.add(project10);
+		projects.add(project11);
+		projects.add(project12);
 
-		assertEquals(5, w1.getProjects().size());
+		c1.assign(w1, project);
+		c1.start(project);
+		c1.assign(w1, project2);
+		c1.start(project2);
+		c1.assign(w1, project3);
+		c1.start(project3);
+		c1.assign(w1, project4);
+		c1.start(project4);
+		c1.assign(w1, project5);
+		c1.start(project5);
+		c1.assign(w1, project6);
+		c1.start(project6);
+		c1.assign(w1, project7);
+		c1.start(project7);
+		c1.assign(w1, project8);
+		c1.start(project8);
+		c1.assign(w1, project9);
+		c1.start(project9);
+		c1.assign(w1, project10);
+		c1.start(project10);
+		c1.assign(w1, project11);
+		c1.start(project11);
+		c1.assign(w1, project12);
+		c1.start(project12);
+		c1.assign(w1, project13);
+		assertEquals(12, w1.getProjects().size());
 		assertEquals(true, projects.equals(w1.getProjects()));
 	}
 	

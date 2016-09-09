@@ -70,11 +70,12 @@ public class Worker
 		}
 	}
 	
-//	public int hashCode() {
-//		int result = 0;
-//		result = (int) (value / 11);
-//		return result;
-//	}
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + _workerName.hashCode();
+        return result;
+    }
 	
 	//TODO
 	public String toString()
@@ -87,22 +88,24 @@ public class Worker
 		return _projects;
 	}
 
-	public boolean willOverload(Project project) {
-		Set<Project> allProjects = _projects;
-		int projectLoad = 0;
-		allProjects.add(project);
-		for (Project temp: allProjects) {
-			if (temp.getStatus() == ProjectStatus.ACTIVE) {
-				if (temp.getSize() == ProjectSize.SMALL) {
-					projectLoad += 1;
-				} else if (temp.getSize() == ProjectSize.MEDIUM) {
-					projectLoad += 2;
-				} else if (temp.getSize() == ProjectSize.BIG) {
-					projectLoad += 3;
-				}
-			}
+	private int getProjectLoadNumber(Project project) {
+		if (project.getSize() == ProjectSize.SMALL) {
+			return 1;
+		} else if (project.getSize() == ProjectSize.MEDIUM) {
+			return 2;
+		} else if (project.getSize() == ProjectSize.BIG) {
+			return 3;
+		} else {
+			return 0;
 		}
-		allProjects.remove(project);
+	}
+	public boolean willOverload(Project project) {
+		int projectLoad = 0;
+		for (Project temp: _projects) {
+			if (temp.getStatus() == ProjectStatus.ACTIVE) {
+				projectLoad += getProjectLoadNumber(temp);
+			}
+		} projectLoad += getProjectLoadNumber(project);
 		if (projectLoad > 12) {
 			return true;
 		}
@@ -114,11 +117,7 @@ public class Worker
 	}
 
 	public void unassignFrom(Project project) {
-		for (Project temp: _projects) {
-			if (temp.getName().equals(project)) {
-				_projects.remove(temp);
-			}
-		}
+		_projects.remove(project);
 	}
 
 	public void unassignAll() {
